@@ -1,0 +1,29 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
+
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+    body{
+      background-color:#f3f5fa;
+      font-family: 'Playfair Display', serif;
+
+    }
+   </style>
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Blog Post</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Post</button>
+            </div>
+        </form>
+    </div>
+    
+{% endblock content %}

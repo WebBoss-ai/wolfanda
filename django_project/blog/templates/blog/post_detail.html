@@ -1,0 +1,195 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<style >
+    body{
+      background-color:#f3f5fa;
+      font-family: 'Playfair Display', serif;
+    }
+   </style>
+  <!-- <article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
+    <div class="media-body" >
+      <div class="article-metadata" >
+        <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
+        <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+        {% if object.author == user %}
+          <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.pk %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.pk %}">Delete</a>
+          </div>
+        {% endif %}
+      </div>
+      <h2 class="article-title">{{ object.title }}</h2>
+      <p class="article-content">{{ object.content|safe }}</p>
+      <p>{{ object.likes.count }} Likes</p>
+    {% if user.is_authenticated %}
+        {% if user in object.likes.all %}
+            <form method="POST" action="{% url 'unlike_post' pk=object.pk %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-info" type="submit">Unlike</button>
+            </form>
+        {% else %}
+            <form method="POST" action="{% url 'like_post' pk=object.pk %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-info" type="submit">Like</button>
+            </form>
+        {% endif %}
+    {% endif %}
+    </div>
+    
+  </article> -->
+  <article >
+    <div class="media-body" style="font-size: 22px; color: black;">
+        <h2 class="article-title text-center" style="color: black; font-size: 40px;">{{ object.title }}</h2>
+        <div class="article-metadata text-center">
+            <a class="mr-2" href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
+            <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+            
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+            </svg>  {{ object.likes.count }} Likes</p>
+            {% if object.author == user %}
+                <div>
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.pk %}" style="color: white;">Update</a>
+                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.pk %}" style="color: white;">Delete</a>
+                </div>
+            {% endif %}
+        </div>
+        <div style="width: 100%; height: 500px; overflow: hidden;">
+          <img src="https://source.unsplash.com/random/?technology&1" alt="" class="img-fluid" style="width: 100%; max-height:500px; border-radius: 15px;">
+        </div>
+        <p  class="article-content content-smaller-widthcol-lg-8 mx-auto" >{{ object.content|safe }}</p>
+        <br><br>
+        <p>{{ object.likes.count }} Likes</p>
+        {% if user.is_authenticated %}
+            {% if user in object.likes.all %}
+                <form method="POST" action="{% url 'unlike_post' pk=object.pk %}">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-info" type="submit">Unlike</button>
+                </form>
+            {% else %}
+                <form method="POST" action="{% url 'like_post' pk=object.pk %}">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-info" type="submit">Like</button>
+                </form>
+            {% endif %}
+        {% endif %}
+    </div>
+</article>
+
+<style>
+  
+    .article-title {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .article-metadata {
+        font-size: 14px;
+        color: #777;
+        margin-bottom: 10px;
+    }
+
+    .article-metadata a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .article-metadata a:hover {
+        text-decoration: underline;
+    }
+
+    .article-content {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #333;
+    }
+
+    .btn {
+        margin-top: 10px;
+    }
+
+    .btn-outline-info {
+        color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+    .btn-outline-info:hover {
+        background-color: #17a2b8;
+        color: #fff;
+    }
+
+    .btn-outline-info:active {
+        background-color: #138496;
+        color: #fff;
+    }
+
+    .btn-outline-info:focus {
+        box-shadow: none;
+    }
+
+    .content-smaller-width {
+        max-width: 70%; /* Adjust this value as needed to control the width of the content */
+    }
+</style>
+
+  <!-- Display the form -->
+  <form method="POST" action="{% url 'post-detail' object.pk %}">
+    {% csrf_token %}
+      <div class="form-group">
+          {{ form }}
+      </div> 
+      {% if user.is_authenticated %}
+      <button class="btn btn-dark btn-block" type="submit">Comment</button>   
+      {%else%}
+      <button class="btn btn-dark btn-block" ><a href="/">Comment</a> </button>   
+      {% endif %}
+  </form>
+
+<div class="section">
+    <div class="container">
+        <h2>Comments ({{ post_comments_count }})</h2>
+        <div class="row">
+            <div class=" mx-auto">
+                <!-- Display comments -->
+                <div class="media-list">
+                    {% for comment in post_comments reversed %}
+                    <div>
+                      <div style="display: flex;">
+                        <img class="avatar avatar-sm mr-4" src="{{ comment.user.profile.image.url }}" style="height: 40px; border-radius: 50%;">
+                        <!-- <div class="media-body"> -->
+                            <div class="small-1" style="display: flex; flex-direction: column;">
+                                <span>{{ comment.user }}</span>
+                                <span class="opacity-70 small-1" style="font-size: smaller;">{{ comment.date }}</span>
+                            </div>
+                      </div>
+                          <div>
+                            <p>{{ comment.content }}</p>
+                           <div style="border: rgba(0, 0, 0, 0.322) 0.5px solid; margin-bottom: 10px;"></div>
+                          </div>
+                        <!-- </div> -->
+                    </div>
+                    
+                    {% comment %} <div> 
+                      <div class="col-xl-8 col-lg-10 mx-auto">
+                          <div class="blog-header row" style="margin-left: 20px;">
+                              <img class="blog-image" src="{% static 'assets/img/writer.png' %}" style="height: 50px; width: 50px;" alt="Blog Image">
+                              <div class="blog-details">
+                                <span class="blog-username">{{blog_obj.user|safe}}</span>
+                                <span class="blog-date"> {{blog_obj.created_at}} </span>
+                              </div>
+                            </div>
+                      </div>
+                    </div> {% endcomment %}
+
+                    {% endfor %}
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

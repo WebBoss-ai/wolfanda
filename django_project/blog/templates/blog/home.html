@@ -1,0 +1,182 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block content %}
+   {% comment %} {% for post in posts %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+              <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+            </div>
+            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+            <p class="article-content">{{ post.content|safe }}</p>
+          </div>
+        </article>
+    {% endfor %} {% endcomment %}
+    
+     <style>
+      body{
+        background-color:#f3f5fa;
+        font-family: 'Playfair Display', serif;
+      }
+     </style>
+    <section class="category-section"  >
+      <div class="container" data-aos="fade-up">
+        {% if is_paginated %}
+
+        {% if page_obj.has_previous %}
+          <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+          <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+  
+        {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+            <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+          {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+          {% endif %}
+        {% endfor %}
+  
+        {% if page_obj.has_next %}
+          <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+          <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+  
+      {% endif %} 
+        <div class="section-header d-flex justify-content-between align-items-center mb-5">
+          <h2>Wolfanda - The Technology</h2>
+          {% if user.is_authenticated %}
+          <div><a href="{% url 'user-posts' request.user %}" class="more">See Your Blogs</a></div>
+          {% endif %}
+        </div>
+
+        <div class="row g-5">
+          <div class="col-lg-4">
+            <div class="post-entry-1 lg">
+              <a href="/post/55/"><img src="https://source.unsplash.com/random/?technology" alt="" class="img-fluid"></a>
+              <div class="post-meta"><span class="date">Technology</span> <span class="mx-1">&bullet;</span> <span>Jul 24th '23</span></div>
+              <h2><a href="/post/55/"> Embracing the Power of AI: A Game-Changer for Businesses</a></h2>
+              <p class="mb-4 d-block">In today's rapidly evolving business landscape, staying ahead of the competition requires innovative approaches. Artificial Intelligence (AI) has emerged as a transformative technology that is reshaping industries and revolutionizing the way businesses operate. In this blog, we will explore the profound impact of AI on businesses and the endless opportunities it presents.</p>
+
+              <div class="d-flex align-items-center author">
+                <div class="photo"><img src="https://source.unsplash.com/random/?ai" alt="" class="img-fluid"></div>
+                <div class="name">
+                  <h3 class="m-0 p-0">Akrit Jain </h3>
+                </div>
+              </div>
+            </div>
+
+            <div class="post-entry-1 border-bottom">
+              <div class="post-meta"><span class="date">Technology</span> <span class="mx-1">&bullet;</span> <span>Jul 18th '23</span></div>
+              <h2 class="mb-2"><a href="/post/50/">Conversations about the Impact of ChatGPT: AI's Language Model</a></h2>
+              <span class="author mb-3 d-block">Prabhat Kumar</span>
+            </div>
+
+            <div class="post-entry-1">
+              <div class="post-meta"><span class="date">Technology</span> <span class="mx-1">&bullet;</span> <span>Jul 24th '23</span></div>
+              <h2 class="mb-2"><a href="/post/56/">Algorithms and Journalism: The Dawn of a New Age, or the Beginning of the End?</a></h2>
+              <span class="author mb-3 d-block">Akrit Jain</span>
+            </div>
+
+          </div>
+
+          <div class="col-lg-8">
+            <div class="row g-5">
+              <div class="col-lg-4 border-start custom-border">
+                <div class="post-entry-1">
+                  <a href="/post/57/"><img src="https://source.unsplash.com/random/?ai" alt="" class="img-fluid"></a>
+                  <div class="post-meta"><span class="date">Technology</span> <span class="mx-1">&bullet;</span> <span>Jul 24th '23</span></div>
+                  <h2><a href="/post/57/">Prompt Engineering: Unveiling the Power of Retrieval Augmented Generation (RAG)</a></h2>
+                </div>
+                <div class="post-entry-1">
+                  <a href="/post/58/"><img src="https://source.unsplash.com/random/?ai&1" alt="" class="img-fluid"></a>
+                  <div class="post-meta"><span class="date">Technology</span> <span class="mx-1">&bullet;</span> <span>Jul 24th '23</span></div>
+                  <h2><a href="/post/58/">What Does It Mean To Regulate AI? Navigating the Ethical and Societal Challenges</a></h2>
+                </div>
+                <div class="post-entry-1">
+                  <a href="/post/59/"><img src="https://source.unsplash.com/random/?ai&2" alt="" class="img-fluid"></a>
+                  <div class="post-meta"><span class="date">Technology</span> <span class="mx-1">&bullet;</span> <span>July 24th '23</span></div>
+                  <h2><a href="/post/59/">The Impact of AI in Healthcare: Revolutionizing Diagnosis and Treatment</a></h2>
+                </div>
+              </div>
+              <div class="col-lg-4 border-start custom-border">
+                <div class="post-entry-1">
+                  <a href="/post/60/"><img src="https://source.unsplash.com/random/?ai&3" alt="" class="img-fluid"></a>
+                  <div class="post-meta"><span class="date">Technology</span> <span class="mx-1">&bullet;</span> <span>Jul 24th '23</span></div>
+                  <h2><a href="/post/60/">AI and Finance: Transforming the Landscape of Financial Services</a></h2>
+                </div>
+                <div class="post-entry-1">
+                  <a href="/post/61/"><img src="https://source.unsplash.com/random/?ai&4" alt="" class="img-fluid"></a>
+                  <div class="post-meta"><span class="date">Technology</span> <span class="mx-1">&bullet;</span> <span>July 24th '23</span></div>
+                  <h2><a href="/post/61/">AI vs. Humans: The Epic Battle for the Best Dad Jokes!</a></h2>
+                </div>
+                <div class="post-entry-1">
+                  <a href="/post/62/"><img src="https://source.unsplash.com/random/?ai&5" alt="" class="img-fluid"></a>
+                  <div class="post-meta"><span class="date">Technology</span> <span class="mx-1">&bullet;</span> <span>Jul 5th '22</span></div>
+                  <h2><a href="/post/62/">The Dark Side of AI: Unraveling the Potential Dangers</a></h2>
+                </div>
+              </div>
+              <div class="col-lg-4">
+
+                
+
+ {% for post in posts %}
+                <div class="post-entry-1 border-bottom">
+                  <div class="post-meta"><span class="date">Technology</span> <span class="mx-1">&bullet;</span> <span>{{ post.date_posted|date:"F d, Y" }}</span></div>
+                  <h2 class="mb-2"><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+                  <span class="author mb-3 d-block"><a href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a></span>
+                </div>
+    {% endfor %} 
+    {% comment %} {% for post in posts %}
+  {% if forloop.counter0|divisibleby:3 %}
+    <div class="post-group">
+  {% endif %}
+
+  <div class="post-entry-1 border-bottom">
+    <div class="post-meta">
+      <span class="date">{{ post.category }}</span>
+      <span class="mx-1">&bullet;</span>
+      <span>{{ post.date_posted|date:"F d, Y" }}</span>
+    </div>
+    <h2 class="mb-2"><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+    <span class="author mb-3 d-block"><a href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a></span>
+  </div>
+
+  {% if forloop.counter|divisibleby:3 or forloop.last %}
+    </div>
+  {% endif %}
+{% endfor %} {% endcomment %}
+
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- End .row -->
+      </div>
+      {% if is_paginated %}
+
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+      {% endif %}
+
+    {% endif %} 
+    </section>
+
+{% endblock content %}
+
+
